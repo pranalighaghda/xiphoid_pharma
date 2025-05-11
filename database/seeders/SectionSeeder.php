@@ -54,7 +54,7 @@ class SectionSeeder extends Seeder
                 'name' => 'whom_we_serve',
                 'title' => 'Whom We Serve?',
                 'page_id' => $aboutUsPage->id,
-                'is_entries' => '1',
+                'is_entries' => 1,
             ],
             [
                 'name' => 'manufacturing',

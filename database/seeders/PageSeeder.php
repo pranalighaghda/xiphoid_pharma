@@ -16,27 +16,25 @@ class PageSeeder extends Seeder
             [
                 'name' => 'home',
                 'title' => 'Home',
-                'is_sections' => '1',
+                'is_sections' => 1,
             ],
             [
                 'name' => 'about_us',
                 'title' => 'About Us',
-                'is_sections' => '1',
+                'is_sections' => 1,
             ],
             [
                 'name' => 'contact_us',
                 'title' => 'Contact Us',
-                'is_sections' => '0',
             ],
             [
                 'name' => 'quality',
                 'title' => 'Quality',
-                'is_sections' => '1',
+                'is_sections' => 1,
             ],
             [
                 'name' => 'products',
                 'title' => 'Our Products',
-                'is_sections' => '0',
             ],
         ];
 
@@ -48,7 +46,7 @@ class PageSeeder extends Seeder
 
             if ($existingPage) {
                 $existingPage->update([
-                    'is_sections' => $page['is_sections'],
+                    'is_sections' => $page['is_sections'] ?? 0,
                 ]);
             } else {
                 Page::create($page);

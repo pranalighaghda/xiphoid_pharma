@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('meta_title')->nullable();
             $table->text('meta_content')->nullable();
             $table->string('meta_keyword')->nullable();
-            $table->enum('is_sections', ['0', '1'])->default('0');
+            $table->boolean('is_sections')->default(0);
             $table->timestamps();
         });
     }

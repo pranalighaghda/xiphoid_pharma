@@ -20,9 +20,9 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->string('btn_text')->nullable();
             $table->string('btn_url')->nullable();
-            $table->enum('btn_is_new_tab', ['0', '1'])->default('0');
-            $table->enum('is_entries', ['0', '1'])->default('0');
-            $table->enum('status', ['0', '1'])->default('1');
+            $table->boolean('btn_is_new_tab')->default(0);
+            $table->boolean('is_entries')->default(0);
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

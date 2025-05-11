@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('small_desc')->nullable();
             $table->text('content')->nullable();
             $table->integer('sort_order')->default(0);
-            $table->enum('status', ['0', '1'])->default('1');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

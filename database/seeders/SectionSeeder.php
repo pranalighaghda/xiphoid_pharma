@@ -45,7 +45,7 @@ class SectionSeeder extends Seeder
 
             // About Us page sections
             [
-                'name' => 'about',
+                'name' => 'welcome',
                 'title' => 'Welcome to Xiphoid',
                 'page_id' => $aboutUsPage->id,
                 'small_desc' => 'About Us',
@@ -65,12 +65,14 @@ class SectionSeeder extends Seeder
 
             // Quality page sections
             [
-                'name' => 'quality',
+                'name' => 'quality_page',
                 'title' => 'Committed to Quality, Driven by Innovation',
                 'page_id' => $qualityPage->id,
             ],
         ];
 
+        $seederNames = collect($sections)->pluck('name')->toArray();
+        Section::whereNotIn('name', $seederNames)->delete();
 
         foreach ($sections as $section) {
 

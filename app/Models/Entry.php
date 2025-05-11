@@ -18,7 +18,7 @@ class Entry extends Model
         'status',
     ];
 
-    protected $appends = ['media_url'];
+    protected $appends = ['media_url', 'media_id'];
 
     // Relationships
     public function section()
@@ -38,6 +38,15 @@ class Entry extends Model
 
         return $media->isNotEmpty()
             ? $media->first()->url
+            : null;
+    }
+
+    public function getMediaIdAttribute(): ?int
+    {
+        $media = $this->relationLoaded('media') ? $this->media : $this->media()->get();
+
+        return $media->isNotEmpty()
+            ? $media->first()->id
             : null;
     }
 

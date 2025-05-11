@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Media;
-use App\Models\Setting;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Traits\HasMediaTrait;
 
 class MediaController extends Controller

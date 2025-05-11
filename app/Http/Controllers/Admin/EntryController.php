@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-// Models
 use App\Models\Entry;
 
 class EntryController extends Controller

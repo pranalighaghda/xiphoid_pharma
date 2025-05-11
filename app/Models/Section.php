@@ -37,7 +37,7 @@ class Section extends Model
 
     public function media()
     {
-        return $this->morphMany(\App\Models\Media::class, 'mediable');
+        return $this->morphMany(Media::class, 'mediable');
     }
 
     // Accessor

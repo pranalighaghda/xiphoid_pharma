@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -42,7 +41,7 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'current_password' => 'required|string',
-            'new_password'     => 'required|string|min:8|confirmed', // expects new_password_confirmation
+            'new_password'     => 'required|string|min:8|confirmed',
         ]);
 
         if (!Hash::check($validated['current_password'], $user->password)) {

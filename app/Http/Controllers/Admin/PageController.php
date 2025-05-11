@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-// Models
 use App\Models\Page;
 
 class PageController extends Controller

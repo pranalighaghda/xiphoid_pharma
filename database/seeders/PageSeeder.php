@@ -29,11 +29,19 @@ class PageSeeder extends Seeder
                 'is_sections' => '0',
             ],
             [
+                'name' => 'quality',
+                'title' => 'Quality',
+                'is_sections' => '1',
+            ],
+            [
                 'name' => 'products',
                 'title' => 'Our Products',
                 'is_sections' => '0',
             ],
         ];
+
+        $seederNames = collect($pages)->pluck('name')->toArray();
+        Page::whereNotIn('name', $seederNames)->delete();
 
         foreach ($pages as $page) {
             $existingPage = Page::where('name', $page['name'])->first();

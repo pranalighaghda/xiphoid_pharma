@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('title');
             $table->text('small_desc')->nullable();
-            $table->string('media')->nullable();
             $table->string('meta_title')->nullable();
             $table->text('meta_content')->nullable();
             $table->string('meta_keyword')->nullable();

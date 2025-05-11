@@ -13,16 +13,32 @@ class Page extends Model
         'name',
         'title',
         'small_desc',
-        'media',
         'meta_title',
         'meta_content',
         'meta_keyword',
         'is_sections',
     ];
 
+    protected $appends = ['media_url'];
+
     // Relationships
     public function sections()
     {
         return $this->hasMany(Section::class);
+    }
+
+    public function media()
+    {
+        return $this->morphMany(\App\Models\Media::class, 'mediable');
+    }
+
+    // Accessor
+    public function getMediaUrlAttribute(): ?string
+    {
+        $media = $this->relationLoaded('media') ? $this->media : $this->media()->get();
+
+        return $media->isNotEmpty()
+            ? $media->first()->url
+            : null;
     }
 }

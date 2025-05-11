@@ -1,25 +1,32 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\SectionController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\EntryController;
 
-
-Route::controller(AuthController::class)->group(function () {
-    Route::post('admin/login', 'login');
-});
+Route::post('admin/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
-    // Page
-    Route::get('pages', [PageController::class, 'index']);       // List all pages
-    Route::get('pages/{id}', [PageController::class, 'show']);   // View single page
-    Route::put('pages/{id}', [PageController::class, 'update']); // Update page
 
-    // Section
-    Route::get('pages/{page_id}/sections', [SectionController::class, 'index']);       // List all sections
-    Route::get('pages/{page_id}/sections/{id}', [SectionController::class, 'show']);   // View single section
-    Route::put('pages/{page_id}/sections/{id}', [SectionController::class, 'update']); // Update section
+    Route::prefix('pages')->controller(PageController::class)->group(function () {
+        Route::get('/', 'index');                // List all pages
+        Route::get('{id}', 'show');              // Get single page
+        Route::post('{id}', 'update');            // Update page
+    });
 
+    Route::prefix('pages/{page_id}/sections')->controller(SectionController::class)->group(function () {
+        Route::get('/', 'index');                // List all sections in a page
+        Route::get('{id}', 'show');              // Get single section
+        Route::post('{id}', 'update');            // Update section
+    });
+
+    Route::prefix('pages/{page_id}/sections/{section_id}/entries')->controller(EntryController::class)->group(function () {
+        Route::get('/', 'index');                // List all entries
+        Route::post('/', 'store');               // Create new entry
+        Route::get('{id}', 'show');              // Get single entry
+        Route::post('{id}', 'update');            // Update entry
+        Route::delete('{id}', 'destroy');        // Delete entry
+    });
 });

@@ -18,9 +18,26 @@ class Entry extends Model
         'status',
     ];
 
+    protected $appends = ['media_url'];
+
     // Relationships
     public function section()
     {
         return $this->belongsTo(Section::class);
+    }
+
+    public function media()
+    {
+        return $this->morphMany(\App\Models\Media::class, 'mediable');
+    }
+
+    // Accessor
+    public function getMediaUrlAttribute(): ?string
+    {
+        $media = $this->relationLoaded('media') ? $this->media : $this->media()->get();
+
+        return $media->isNotEmpty()
+            ? $media->first()->url
+            : null;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,12 @@ class PageController extends Controller
 {
     public function index()
     {
-        $pages = Page::select('id', 'name', 'title', 'is_sections')->get();
+        $pages = Page::get();
 
         return response()->json([
             'success' => true,
             'message' => 'Pages fetched successfully.',
-            'data' => $pages
+            'data' => $pages,
         ], 200);
     }
 
@@ -28,14 +29,14 @@ class PageController extends Controller
         if (!$page) {
             return response()->json([
                 'success' => false,
-                'message' => 'Page not found.'
+                'message' => 'Page not found.',
             ], 404);
         }
 
         return response()->json([
             'success' => true,
             'message' => 'Page fetched successfully.',
-            'data' => $page
+            'data' => $page,
         ], 200);
     }
 
@@ -46,26 +47,29 @@ class PageController extends Controller
         if (!$page) {
             return response()->json([
                 'success' => false,
-                'message' => 'Page not found.'
+                'message' => 'Page not found.',
             ], 404);
         }
 
         $validated = $request->validate([
-            'title' => 'sometimes|string|max:255',
-            'small_desc' => 'nullable|string',
-            'media' => 'nullable|string',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_content' => 'nullable|string',
-            'meta_keyword' => 'nullable|string',
+            'title'         => 'sometimes|string|max:255',
+            'small_desc'    => 'nullable|string',
+            'media'         => 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048',
+            'meta_title'    => 'nullable|string|max:255',
+            'meta_content'  => 'nullable|string',
+            'meta_keyword'  => 'nullable|string',
         ]);
 
-        $page->update($validated);
-        $page->refresh();
+        if ($request->hasFile('media')) {
+            MediaHelper::syncMediaToModel($request->file('media'), $page, 'image');
+        }
+
+        $page->update(collect($validated)->except('media')->toArray());
 
         return response()->json([
             'success' => true,
             'message' => 'Page updated successfully.',
-            'data' => $page
+            'data' => $page->fresh(),
         ], 200);
     }
 }

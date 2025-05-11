@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('section_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('small_desc')->nullable();
-            $table->string('media')->nullable();
             $table->integer('sort_order')->default(0);
             $table->enum('status', ['0', '1'])->default('1');
             $table->timestamps();

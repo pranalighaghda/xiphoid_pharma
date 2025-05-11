@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class SectionController extends Controller
 {
     public function index($page_id)
     {
-        $sections = Section::where('page_id', $page_id)->select('id', 'title', 'status', 'is_entries')->get();
+        $sections = Section::where('page_id', $page_id)->get();
 
         return response()->json([
             'success' => true,
@@ -54,20 +55,23 @@ class SectionController extends Controller
             'title' => 'sometimes|string|max:255',
             'small_desc' => 'nullable|string',
             'content' => 'nullable|string',
-            'media' => 'nullable|string',
+            'media'         => 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048',
             'btn_text' => 'nullable|string|max:255',
             'btn_url' => 'nullable|string',
-            'btn_is_new_tab' => 'nullable|in:1,0',
+            'btn_is_new_tab' => 'nullable|boolean|in:1,0',
             'status' => 'nullable|in:1,0',
         ]);
 
-        $section->update($validated);
-        $section->refresh();
+        if ($request->hasFile('media')) {
+            MediaHelper::syncMediaToModel($request->file('media'), $section, 'image');
+        }
+
+        $section->update(collect($validated)->except('media')->toArray());
 
         return response()->json([
             'success' => true,
             'message' => 'Section updated successfully.',
-            'data' => $section
+            'data' => $section->fresh()
         ], 200);
     }
 }

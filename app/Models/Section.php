@@ -15,13 +15,14 @@ class Section extends Model
         'title',
         'small_desc',
         'content',
-        'media',
         'btn_text',
         'btn_url',
         'btn_is_new_tab',
         'is_entries',
         'status',
     ];
+
+    protected $appends = ['media_url'];
 
     // Relationships
     public function page()
@@ -32,5 +33,20 @@ class Section extends Model
     public function entries()
     {
         return $this->hasMany(Entry::class);
+    }
+
+    public function media()
+    {
+        return $this->morphMany(\App\Models\Media::class, 'mediable');
+    }
+
+    // Accessor
+    public function getMediaUrlAttribute(): ?string
+    {
+        $media = $this->relationLoaded('media') ? $this->media : $this->media()->get();
+
+        return $media->isNotEmpty()
+            ? $media->first()->url
+            : null;
     }
 }

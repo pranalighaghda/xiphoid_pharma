@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('title');
             $table->text('small_desc')->nullable();
             $table->text('content')->nullable();
-            $table->string('media')->nullable();
             $table->string('btn_text')->nullable();
             $table->string('btn_url')->nullable();
             $table->enum('btn_is_new_tab', ['0', '1'])->default('0');

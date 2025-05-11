@@ -13,7 +13,7 @@ class EntryController extends Controller
 {
     public function index($page_id, $section_id)
     {
-        $entries = Entry::where('section_id', $section_id)->get();
+        $entries = Entry::where('section_id', $section_id)->ordered()->get();
 
         return response()->json([
             'success' => true,
@@ -121,6 +121,23 @@ class EntryController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Entry deleted successfully.'
+        ], 200);
+    }
+
+    public function reorder(Request $request)
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'required|exists:entries,id',
+        ]);
+
+        foreach ($validated['ids'] as $index => $id) {
+            Entry::where('id', $id)->update(['sort_order' => $index + 1]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Entries reordered successfully.',
         ], 200);
     }
 }

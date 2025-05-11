@@ -12,8 +12,30 @@ class Banner extends Model
     protected $fillable = [
         'title',
         'small_desc',
-        'media',
         'sort_order',
         'status',
     ];
+
+    protected $appends = ['media_url'];
+
+    public function media()
+    {
+        return $this->morphMany(\App\Models\Media::class, 'mediable');
+    }
+
+    // Accessor
+    public function getMediaUrlAttribute(): ?string
+    {
+        $media = $this->relationLoaded('media') ? $this->media : $this->media()->get();
+
+        return $media->isNotEmpty()
+            ? $media->first()->url
+            : null;
+    }
+
+    // Scopes
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('sort_order', 'asc');
+    }
 }

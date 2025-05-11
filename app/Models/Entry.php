@@ -40,4 +40,10 @@ class Entry extends Model
             ? $media->first()->url
             : null;
     }
+
+    // Scopes
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('sort_order', 'asc');
+    }
 }

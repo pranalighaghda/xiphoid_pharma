@@ -4,115 +4,128 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Banner;
+use App\Models\Category;
 use App\Helpers\MediaHelper;
+use App\Models\Product;
 
-class BannerController extends Controller
+class CategoryController extends Controller
 {
     public function index()
     {
-        $banners = Banner::ordered()->get();
+        $categories = Category::ordered()->get();
 
         return response()->json([
             'success' => true,
-            'message' => 'Banners fetched successfully.',
-            'data' => $banners
+            'message' => 'Categories fetched successfully.',
+            'data' => $categories
         ], 200);
     }
 
     public function show($id)
     {
-        $banner = Banner::find($id);
+        $category = Category::find($id);
 
-        if (!$banner) {
+        if (!$category) {
             return response()->json([
                 'success' => false,
-                'message' => 'Banner not found.'
+                'message' => 'Category not found.'
             ], 404);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Banner fetched successfully.',
-            'data' => $banner
+            'message' => 'Category fetched successfully.',
+            'data' => $category
         ], 200);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'       => 'nullable|string|max:255',
+            'title'       => 'required|string|max:255',
             'small_desc'  => 'nullable|string',
+            'content'     => 'nullable|string',
             'status'      => 'nullable|in:0,1',
             'media'       => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $banner = Banner::create($validated);
+        $category = Category::create($validated);
 
         if ($request->hasFile('media')) {
-            MediaHelper::syncMediaToModel($request->file('media'), $banner, 'image');
+            MediaHelper::syncMediaToModel($request->file('media'), $category, 'image');
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Banner created successfully.',
-            'data' => $banner
+            'message' => 'Category created successfully.',
+            'data' => $category->fresh()
         ], 200);
     }
 
     public function update(Request $request, $id)
     {
-        $banner = Banner::find($id);
+        $category = Category::find($id);
 
-        if (!$banner) {
+        if (!$category) {
             return response()->json([
                 'success' => false,
-                'message' => 'Banner not found.'
+                'message' => 'Category not found.'
             ], 404);
         }
 
-        $hasMedia = $banner->media()->exists();
+        $hasMedia = $category->media()->exists();
 
         $validated = $request->validate([
             'title'       => 'nullable|string|max:255',
             'small_desc'  => 'nullable|string',
+            'content'     => 'nullable|string',
             'status'      => 'nullable|in:0,1',
             'media'       => $hasMedia ? 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048' : 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         if ($request->hasFile('media')) {
-            MediaHelper::syncMediaToModel($request->file('media'), $banner, 'image');
+            MediaHelper::syncMediaToModel($request->file('media'), $category, 'image');
         }
 
-        $banner->update($validated);
+        $category->update($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Banner updated successfully.',
-            'data' => $banner
+            'message' => 'Category updated successfully.',
+            'data' => $category->fresh()
         ], 200);
     }
 
     public function destroy($id)
     {
-        $banner = Banner::find($id);
+        $category = Category::find($id);
 
-        if (!$banner) {
+        if (!$category) {
             return response()->json([
                 'success' => false,
-                'message' => 'Banner not found.'
+                'message' => 'Category not found.'
             ], 404);
         }
 
-        if ($banner->media) {
-            MediaHelper::deleteMediaFromModel($banner);
+        $products = Product::where('category_id', $category->id)->get();
+
+        foreach ($products as $product) {
+            if ($product->media) {
+                MediaHelper::deleteMediaFromModel($product);
+            }
+
+            $product->delete();
         }
 
-        $banner->delete();
+        if ($category->media) {
+            MediaHelper::deleteMediaFromModel($category);
+        }
+
+        $category->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Banner deleted successfully.'
+            'message' => 'Category deleted successfully.'
         ], 200);
     }
 
@@ -120,16 +133,16 @@ class BannerController extends Controller
     {
         $validated = $request->validate([
             'ids' => 'required|array',
-            'ids.*' => 'required|exists:banners,id',
+            'ids.*' => 'required|exists:categories,id',
         ]);
 
         foreach ($validated['ids'] as $index => $id) {
-            Banner::where('id', $id)->update(['sort_order' => $index + 1]);
+            Category::where('id', $id)->update(['sort_order' => $index + 1]);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Banners reordered successfully.',
+            'message' => 'Categories reordered successfully.',
         ], 200);
     }
 }

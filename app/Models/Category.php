@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Banner extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
         'small_desc',
+        'content',
         'sort_order',
         'status',
     ];
 
-    protected $appends = ['media_url', 'media_id'];
+    protected $appends = ['media_url'];
 
     public function media()
     {
@@ -30,15 +31,6 @@ class Banner extends Model
 
         return $media->isNotEmpty()
             ? $media->first()->url
-            : null;
-    }
-
-    public function getMediaIdAttribute(): ?int
-    {
-        $media = $this->relationLoaded('media') ? $this->media : $this->media()->get();
-
-        return $media->isNotEmpty()
-            ? $media->first()->id
             : null;
     }
 

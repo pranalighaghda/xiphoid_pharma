@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\EntryController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\EnquiryController;
 
 Route::post('admin/login', [AuthController::class, 'login']);
 
@@ -39,5 +40,10 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
         Route::delete('{id}', 'destroy');  // Delete banner
         Route::post('reorder', 'reorder'); // Reorder banners
         Route::post('{id}', 'update');      // Update banner
+    });
+
+    Route::prefix('enquiries')->controller(EnquiryController::class)->group(function () {
+        Route::get('/', 'index');              // Paginated + searchable
+        Route::post('{id}/reply', 'reply');   // Reply to enquiry
     });
 });

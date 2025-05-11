@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\EntryController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SettingController;
 
 Route::post('admin/login', [AuthController::class, 'login']);
 
@@ -18,6 +19,8 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/change-password', [ProfileController::class, 'changePassword']);
     Route::post('/users', [ProfileController::class, 'store']); // Create user
 
+    Route::get('settings', [SettingController::class, 'index']);
+    Route::post('settings', [SettingController::class, 'update']);
 
     Route::prefix('pages')->controller(PageController::class)->group(function () {
         Route::get('/', 'index');                // List all pages

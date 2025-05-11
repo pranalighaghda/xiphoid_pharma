@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            $existingUser = User::where('name', $user['name'])->first();
+            $existingUser = User::where('email', $user['email'])->first();
 
             if (!$existingUser) {
                 User::create($user);

@@ -58,4 +58,10 @@ class Section extends Model
             ? $media->first()->id
             : null;
     }
+
+    // Scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 }

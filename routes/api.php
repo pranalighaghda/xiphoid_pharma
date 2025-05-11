@@ -13,6 +13,12 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 
+
+use App\Http\Controllers\Front\PageController as FrontPageController;
+use App\Http\Controllers\Front\CategoryController as FrontCategoryController;
+use App\Http\Controllers\Front\ProductController as FrontProductController;
+use App\Http\Controllers\Front\EnquiryController as FrontEnquiryController;
+
 Route::post('admin/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
@@ -80,3 +86,9 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
         Route::post('{id}', 'update');      // Update product
     });
 });
+
+// front
+Route::get('/page/{name}', [FrontPageController::class, 'page']);
+Route::get('/categories', [FrontCategoryController::class, 'categories']);
+Route::get('/products/{category_id?}', [FrontProductController::class, 'products']);
+Route::post('/enquiry', [FrontEnquiryController::class, 'enquiry']);

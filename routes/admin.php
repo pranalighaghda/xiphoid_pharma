@@ -1,18 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', function () {
-        return 'admin';
-    })->name('dashboard');
+    Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 });
 
-// Route::middleware(['web', 'auth']) // Add 'is_admin' if needed
-//     ->prefix('admin')
-//     ->name('admin.')
-//     ->group(function () {
-//         Route::get('/', function () {
-//             return view('admin.dashboard');
-//         })->name('dashboard');
-//     });
+Route::middleware('guest')->group(function () {});
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+Route::middleware(['web', 'auth'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/profile', [DashboardController::class, 'index'])->name('profile');
+    });

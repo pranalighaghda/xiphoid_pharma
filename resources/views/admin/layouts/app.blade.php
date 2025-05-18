@@ -20,6 +20,9 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('css/admin/dashboard.css') }}" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <link href="{{ asset('css/admin/custom.css') }}" rel="stylesheet" />
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -75,6 +78,11 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('js/admin/dashboard.js') }}"></script>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+    <script src="{{ asset('js/admin/custom.js') }}"></script>
     @stack('js');
 </body>
 

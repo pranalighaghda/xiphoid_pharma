@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\PageController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -25,4 +26,9 @@ Route::middleware(['web', 'auth'])
         Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
         Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+
+        Route::prefix('pages')->controller(PageController::class)->group(function () {
+            Route::get('/', 'index')->name('pages.index');
+            Route::get('{id}', 'show');
+        });
     });

@@ -11,12 +11,20 @@ class LoginController extends Controller
     // Show login form
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('admin.auth.login');
     }
 
     // Handle login
     public function login(Request $request)
     {
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         $credentials = $request->validate([
             'email'    => 'required|email',
             'password' => 'required|string',

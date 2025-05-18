@@ -14,7 +14,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::middleware('guest')->group(function () {});
 
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['web', 'auth'])

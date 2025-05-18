@@ -11,9 +11,9 @@ class PageController extends Controller
 {
     public function index()
     {
-        $pages = Page::get();
+        $pages = Page::paginate(10);
 
-        return view('admin.pages.pages.index', compact('pages'));
+        return view('admin.pages.page', compact('pages'));
     }
 
     public function update(Request $request, $id)

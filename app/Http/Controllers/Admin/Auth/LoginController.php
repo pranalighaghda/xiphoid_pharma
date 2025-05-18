@@ -14,8 +14,8 @@ class LoginController extends Controller
         if (Auth::check()) {
             return redirect()->route('admin.dashboard');
         }
-
-        return view('admin.auth.login');
+// C:\xampp\htdocs\laravel\xiphoid_pharma\resources\views\admin\login\login.blade.php
+        return view('admin.login.login');
     }
 
     // Handle login

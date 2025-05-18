@@ -1,99 +1,91 @@
-@extends('admin.layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
-
+@extends('layouts.app')
 @section('content')
-    @include('admin.layouts.navbars.auth.topnav', ['title' => 'Your Profile'])
-    <div class="card shadow-lg mx-4 card-profile-bottom">
-        <div class="card-body p-3">
-            <div class="row gx-4">
-                <div class="col-auto">
-                    <div class="avatar avatar-xl position-relative">
-                        <img src="{{ asset('images/user.jpg') }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+
+@include('layouts.top-header', [
+    'title' => __('Profile') ,
+    'class' => 'col-lg-7'
+])
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-xl-12 order-xl-1">
+            <div class="card shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <h3 class="ml-3">Edit Profile</h3>
                     </div>
                 </div>
-                <div class="col-auto my-auto">
-                    <div class="h-100">
-                        <h5 class="mb-1">
-                            {{ auth()->user()->name ?? 'Admin' }}
-                        </h5>
-                        <p class="mb-0 font-weight-bold text-sm">
-                            Admin
-                        </p>
-                    </div>
+                <div class="card-body">
+                    <form class="form-horizontal" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data" method="post">
+                        @csrf
+                        <h6 class="heading-small text-muted mb-4">Admin information</h6>
+
+                        <div class="pl-lg-4">
+                            {{-- <div class="form-group">
+                                <label class="form-control-label" for="image">{{__('Change Profile Photo')}}</label><br>
+                                <input type="file" id="image" name="image" accept="image/*" onchange="loadFile(event)"><br>
+                                <img id="output" src="{{ asset('images/user.jpg') }}" class="uploadprofileimg mt-3"/>
+                            </div> --}}
+
+                            <div class="form-group">
+                                <label class="form-control-label" for="name">Name</label>
+                                <input type="text"  value="{{old('name', auth()->user()->name)}}" class="form-control" name="name" id="name" placeholder="Name">
+                                @error('name')                                    
+                                    <div class="invalid-div">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-control-label" for="email">Email</label>
+                                <input type="text"  value="{{old('email', auth()->user()->email)}}" class="form-control" name="email" id="email" placeholder="Email">
+                                @error('email')                                    
+                                    <div class="invalid-div">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mt-4">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    <hr class="my-4" />
+                    <form class="form-horizontal" action="{{ route('admin.profile.change-password') }}" enctype="multipart/form-data" method="post">
+                        @csrf
+                        <h6 class="heading-small text-muted mb-4">Password</h6>
+                        <div class="pl-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label" for="current_password">Current Password</label>
+                                <input type="password" class="form-control" name="current_password" id="current_password" placeholder="Current Password" autocomplete="current-password">
+                                @error('current_password')                                    
+                                    <div class="invalid-div">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-control-label" for="new_password">New Password</label>
+                                <input type="password" class="form-control" name="new_password" id="new_password" placeholder="New Password" autocomplete="new-password">
+                                @error('new_password')                                    
+                                    <div class="invalid-div">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-control-label" for="new_password_confirmation">Confirm New Password</label>
+                                <input type="password" class="form-control" name="new_password_confirmation" id="new_password_confirmation" placeholder="Confirm New Password" autocomplete="new_password_confirmation">
+                                @error('new_password_confirmation')                                    
+                                    <div class="invalid-div">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mt-4">Change password</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div id="alert">
-        {{-- @include('components.alert') --}}
-    </div>
-    <div class="container-fluid py-4">
-
-        {{-- Profile Update Card --}}
-        <div class="card mb-4">
-            <form method="POST" action="{{ route('admin.profile.update') }}">
-                @csrf
-                <div class="card-header pb-0">
-                    <div class="d-flex align-items-center">
-                        <p class="mb-0">Edit Profile</p>
-                        <button type="submit" class="btn btn-primary btn-sm ms-auto">Update Profile</button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Name</label>
-                                <input class="form-control" type="text" name="name"
-                                    value="{{ old('name', auth()->user()->name) }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Email address</label>
-                                <input class="form-control" type="email" name="email"
-                                    value="{{ auth()->user()->email }}" readonly>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        {{-- Change Password Card --}}
-        <div class="card">
-            <form method="POST" action="{{ route('admin.profile.change-password') }}">
-                @csrf
-                <div class="card-header pb-0">
-                    <div class="d-flex align-items-center">
-                        <p class="mb-0">Change Password</p>
-                        <button type="submit" class="btn btn-warning btn-sm ms-auto">Update Password</button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-control-label">Current Password</label>
-                                <input class="form-control" type="password" name="current_password" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-control-label">New Password</label>
-                                <input class="form-control" type="password" name="new_password" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-control-label">Confirm Password</label>
-                                <input class="form-control" type="password" name="new_password_confirmation" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-    </div>
-    @include('admin.layouts.footers.auth.footer')
+    
+</div>
 @endsection

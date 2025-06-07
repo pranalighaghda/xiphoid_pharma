@@ -14,8 +14,6 @@
                     <!-- Card header -->
                     <div class="card-header border-0">
                         <span class="h3">Pages</span>
-                        <button class="btn btn-primary addbtn float-right p-2 add_banner" id="add_banner"><i
-                                class="fas fa-plus mr-1"></i>Add New</button>
                     </div>
                     <!-- table -->
                     <div class="table-responsive">
@@ -34,27 +32,24 @@
                                             <th>{{ $pages->firstItem() + $key }}</th>
                                             <td>{{ $page->title }}</td>
                                             <td class="table-actions">
-                                                <button
-                                                    class="btn-white btn shadow-none p-0 m-0 table-action text-warning bg-white"
-                                                    data-toggle="tooltip" data-original-title="View Page">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button
-                                                    class="btn-white btn shadow-none p-0 m-0 table-action text-info bg-white"
+                                                @if ($page->is_sections)
+                                                    <a class="btn-white btn shadow-none p-0 m-0 table-action text-warning bg-white"
+                                                        href="{{ route('admin.pages.sections.index', ['page_id' => $page->id]) }}"
+                                                        data-toggle="tooltip" data-original-title="View Sections">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
+                                                <a class="btn-white btn shadow-none p-0 m-0 table-action text-info bg-white"
+                                                        href="{{ route('admin.pages.edit', ['page_id' => $page->id]) }}"
                                                     data-toggle="tooltip" data-original-title="Edit Page">
                                                     <i class="fas fa-user-edit"></i>
-                                                </button>
-                                                <button
-                                                    class="btn-white btn shadow-none p-0 m-0 table-action text-danger bg-white"
-                                                    data-toggle="tooltip" data-original-title="Delete Page">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
                                 @else
                                     <tr>
-                                        <th colspan="10" class="text-center">No Pages</th>
+                                        <th colspan="3" class="text-center">No Pages</th>
                                     </tr>
                                 @endif
                             </tbody>
@@ -66,8 +61,5 @@
                 </div>
             </div>
         </div>
-
-        {{-- @include('admin.banner.create')
-    @include('admin.banner.show')
-    @include('admin.banner.edit') --}}
-    @endsection
+    </div>
+@endsection

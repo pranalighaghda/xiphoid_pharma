@@ -64,7 +64,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('admin/pages') ? 'active' : '' }}"
+                    <a class="nav-link {{ request()->is('admin/pages*') ? 'active' : '' }}"
                         href="{{ route('admin.pages.index') }}">
                         <i class="ni ni-tv-2 text-teal"></i>
                         <span class="nav-link-text">Pages</span>

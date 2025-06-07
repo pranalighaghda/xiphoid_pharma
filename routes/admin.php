@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\EntryController;
+use App\Http\Controllers\Admin\MediaController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -27,8 +30,22 @@ Route::middleware(['web', 'auth'])
         Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
 
-        Route::prefix('pages')->controller(PageController::class)->group(function () {
-            Route::get('/', 'index')->name('pages.index');
-            Route::get('{id}', 'show');
+        Route::delete('media/{id}', [MediaController::class, 'destroy']);
+
+
+        Route::prefix('pages')->name('pages.')->controller(PageController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{page_id}', 'edit')->name('edit');
+            Route::post('/update/{page_id}', 'update')->name('update');
+
+            Route::prefix('{page_id}/sections')->name('sections.')->controller(SectionController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{section_id}', 'edit')->name('edit');
+                Route::post('/update/{section_id}', 'update')->name('update');
+
+                Route::prefix('{section_id}/entries')->name('entries.')->controller(EntryController::class)->group(function () {
+                    Route::get('/', 'index')->name('index');
+                });
+            });
         });
     });

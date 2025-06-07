@@ -188,10 +188,10 @@ table{
 {
     background: linear-gradient(87deg, #ec5172 0, #f3b4a4 100%) !important;
 }
-.text-salon{
+.text-theme{
     color: var(--primary_color);
 }
-.text-salon:hover{
+.text-theme:hover{
     color: var(--primary_color_hover);
 }
 .bg_img{
@@ -550,3 +550,10 @@ div.dataTables_wrapper div.dataTables_filter {
   height: 36px !important;
 }
 
+/* NEW */
+.table-actions{
+  text-align: end;
+}
+.ck-editor__editable {
+    min-height: 200px;
+}

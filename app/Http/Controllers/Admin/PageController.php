@@ -13,22 +13,22 @@ class PageController extends Controller
     {
         $pages = Page::paginate(10);
 
-        return view('admin.pages.page', compact('pages'));
+        return view('admin.pages1.index', compact('pages'));
     }
 
-    public function update(Request $request, $id)
+    public function edit($page_id)
     {
-        $page = Page::find($id);
+        $item = Page::findOrFail($page_id);
 
-        if (!$page) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Page not found.',
-            ], 404);
-        }
+        return view('admin.pages1.edit', compact('item'));
+    }
+
+    public function update(Request $request, $page_id)
+    {
+        $item = Page::findOrFail($page_id);
 
         $validated = $request->validate([
-            'title'         => 'sometimes|string|max:255',
+            'title'         => 'required|string|max:255',
             'small_desc'    => 'nullable|string',
             'media'         => 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048',
             'meta_title'    => 'nullable|string|max:255',
@@ -37,15 +37,14 @@ class PageController extends Controller
         ]);
 
         if ($request->hasFile('media')) {
-            MediaHelper::syncMediaToModel($request->file('media'), $page, 'image');
+            MediaHelper::syncMediaToModel($request->file('media'), $item, 'image');
         }
 
-        $page->update(collect($validated)->except('media')->toArray());
+        $item->update(collect($validated)->except('media')->toArray());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Page updated successfully.',
-            'data' => $page->fresh(),
-        ], 200);
+        return redirect()->route('admin.pages.index')->with([
+            'message' => 'Page updated successfully!',
+            'alert-type' => 'success'
+        ]);
     }
 }

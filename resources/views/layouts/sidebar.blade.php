@@ -20,7 +20,7 @@
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
                             <img alt="Image placeholder"
-                                src="{{ asset('images/user.jpg') }}">   
+                                src="{{ asset('images/user.jpg') }}">
                         </span>
                     </div>
                 </a>
@@ -55,6 +55,7 @@
                 </div>
             </div>
 
+
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}"
@@ -66,8 +67,15 @@
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('admin/pages*') ? 'active' : '' }}"
                         href="{{ route('admin.pages.index') }}">
-                        <i class="ni ni-tv-2 text-teal"></i>
+                        <i class="ni ni-single-copy-04 text-blue"></i>
                         <span class="nav-link-text">Pages</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('admin/homepage-banner*') ? 'active' : '' }}"
+                        href="{{ route('admin.homepage-banner.index') }}">
+                        <i class="ni ni-image text-green"></i>
+                        <span class="nav-link-text">Homepage Banner</span>
                     </a>
                 </li>
             </ul>

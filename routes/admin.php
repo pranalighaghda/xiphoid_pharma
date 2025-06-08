@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\EntryController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\HomepageBannerController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -55,4 +56,15 @@ Route::middleware(['web', 'auth'])
                 });
             });
         });
+
+    Route::prefix('homepage-banner')->name('homepage-banner.')->controller(HomepageBannerController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{banner_id}', 'edit')->name('edit');
+        Route::post('/update/{banner_id}', 'update')->name('update');
+        Route::delete('/delete/{banner_id}', 'destroy')->name('delete');
+        Route::get('/reorder', 'reorder')->name('reorder');
+        Route::post('/update-order', 'updateOrder')->name('update-order');
+    });
     });

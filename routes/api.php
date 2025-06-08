@@ -14,10 +14,10 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 
 
-use App\Http\Controllers\Front\PageController as FrontPageController;
-use App\Http\Controllers\Front\CategoryController as FrontCategoryController;
-use App\Http\Controllers\Front\ProductController as FrontProductController;
-use App\Http\Controllers\Front\EnquiryController as FrontEnquiryController;
+use App\Http\Controllers\Api\Front\PageController as FrontPageController;
+use App\Http\Controllers\Api\Front\CategoryController as FrontCategoryController;
+use App\Http\Controllers\Api\Front\ProductController as FrontProductController;
+use App\Http\Controllers\Api\Front\EnquiryController as FrontEnquiryController;
 
 Route::post('admin/login', [AuthController::class, 'login']);
 

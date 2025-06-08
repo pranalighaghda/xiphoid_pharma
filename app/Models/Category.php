@@ -24,6 +24,11 @@ class Category extends Model
         return $this->morphMany(Media::class, 'mediable');
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     // Accessor
     public function getMediaUrlAttribute(): ?string
     {
@@ -47,5 +52,10 @@ class Category extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order', 'asc');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 }

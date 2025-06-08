@@ -2,13 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\EntryController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\HomepageBannerController;
+use App\Http\Controllers\Admin\ProductController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -57,7 +60,7 @@ Route::middleware(['web', 'auth'])
             });
         });
 
-    Route::prefix('homepage-banner')->name('homepage-banner.')->controller(HomepageBannerController::class)->group(function () {
+    Route::prefix('homepage-banners')->name('homepage-banners.')->controller(HomepageBannerController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
@@ -66,5 +69,33 @@ Route::middleware(['web', 'auth'])
         Route::delete('/delete/{banner_id}', 'destroy')->name('delete');
         Route::get('/reorder', 'reorder')->name('reorder');
         Route::post('/update-order', 'updateOrder')->name('update-order');
+    });
+
+    Route::prefix('categories')->name('categories.')->controller(CategoryController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{category_id}', 'edit')->name('edit');
+        Route::post('/update/{category_id}', 'update')->name('update');
+        Route::delete('/delete/{category_id}', 'destroy')->name('delete');
+        Route::get('/reorder', 'reorder')->name('reorder');
+        Route::post('/update-order', 'updateOrder')->name('update-order');
+    });
+
+    Route::prefix('products')->name('products.')->controller(ProductController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{product_id}', 'edit')->name('edit');
+        Route::post('/update/{product_id}', 'update')->name('update');
+        Route::delete('/delete/{product_id}', 'destroy')->name('delete');
+        Route::get('/reorder', 'reorder')->name('reorder');
+        Route::post('/update-order', 'updateOrder')->name('update-order');
+    });
+
+    Route::prefix('enquiries')->name('enquiries.')->controller(EnquiryController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{enquiry_id}', 'show')->name('show');
+        Route::delete('/delete/{enquiry_id}', 'destroy')->name('delete');
     });
     });

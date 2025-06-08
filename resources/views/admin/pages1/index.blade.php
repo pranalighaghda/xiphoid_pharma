@@ -45,7 +45,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <th colspan="3" class="text-center">No Pages</th>
+                                        <td colspan="3" class="text-center">No Pages</td>
                                     </tr>
                                 @endforelse
                             </tbody>

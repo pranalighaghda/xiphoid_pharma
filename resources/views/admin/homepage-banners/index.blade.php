@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('layouts.top-header', [
-        'title' => 'Homepage Banner',
+        'title' => 'Homepage Banners',
     ])
 
     <div class="container-fluid mt--6 mb-5">
@@ -10,14 +10,14 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        <span class="h3"> Homepage Banner</span>
+                        <span class="h3"> Homepage Banners</span>
 
                         <a class="btn btn-primary float-right p-2 text-white"
-                            href="{{ route('admin.homepage-banner.reorder') }}"><i
+                            href="{{ route('admin.homepage-banners.reorder') }}"><i
                                 class="fas fa-sort mr-1"></i> Reorder
                         </a>
                         <a class="btn btn-primary float-right p-2 mr-2 text-white"
-                            href="{{ route('admin.homepage-banner.create') }}"><i
+                            href="{{ route('admin.homepage-banners.create') }}"><i
                                 class="fas fa-plus mr-1"></i>Add
                             New</a>
                     </div>
@@ -48,12 +48,12 @@
                                         </td>
                                         <td class="table-actions">
                                             <a class="btn btn-info"
-                                                href="{{ route('admin.homepage-banner.edit', ['banner_id' => $banner->id]) }}"
+                                                href="{{ route('admin.homepage-banners.edit', ['banner_id' => $banner->id]) }}"
                                                 data-toggle="tooltip" title="Edit Banner">
                                                 <i class="fas fa-user-edit"></i>
                                             </a>
                                             <a class="btn btn-danger text-white delete-button"
-                                                data-href="{{ route('admin.homepage-banner.delete', ['banner_id' => $banner->id]) }}"
+                                                data-href="{{ route('admin.homepage-banners.delete', ['banner_id' => $banner->id]) }}"
                                                 data-toggle="tooltip" title="Delete Banner">
                                                 <i class="fas fa-trash"></i>
                                             </a>
@@ -62,7 +62,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <th colspan="5" class="text-center">No Banners</th>
+                                        <td colspan="5" class="text-center">No Banners</td>
                                     </tr>
                                 @endforelse
                             </tbody>

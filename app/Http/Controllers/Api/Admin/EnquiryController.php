@@ -12,7 +12,6 @@ class EnquiryController extends Controller
     {
         $search = $request->input('search');
         $perPage = $request->input('per_page', 10);
-        $replyStatus = $request->boolean('reply_status', null); // returns null, true, or false
 
         $query = Enquiry::query();
 
@@ -23,10 +22,6 @@ class EnquiryController extends Controller
                     ->orWhere('subject', 'like', "%$search%")
                     ->orWhere('content', 'like', "%$search%");
             });
-        }
-
-        if (!is_null($replyStatus)) {
-            $replyStatus ? $query->whereNotNull('reply_note') : $query->whereNull('reply_note');
         }
 
         $enquiries = $query->orderBy('created_at', 'desc')->paginate($perPage);
@@ -42,32 +37,5 @@ class EnquiryController extends Controller
                 'total' => $enquiries->total()
             ]
         ]);
-    }
-
-
-    public function reply(Request $request, $id)
-    {
-        $enquiry = Enquiry::find($id);
-
-        if (!$enquiry) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Enquiry not found.'
-            ], 404);
-        }
-
-        $validated = $request->validate([
-            'reply_note' => 'required|string',
-        ]);
-
-        $enquiry->update([
-            'reply_note' => $validated['reply_note']
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Reply saved successfully.',
-            'data' => $enquiry->fresh()
-        ], 200);
     }
 }

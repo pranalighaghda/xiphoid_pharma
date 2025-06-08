@@ -64,8 +64,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     });
 
     Route::prefix('enquiries')->controller(EnquiryController::class)->group(function () {
-        Route::get('/', 'index');              // Paginated + searchable
-        Route::post('{id}/reply', 'reply');   // Reply to enquiry
+        Route::get('/', 'index');              // Paginated + searchabl
     });
 
     Route::prefix('categories')->controller(CategoryController::class)->group(function () {

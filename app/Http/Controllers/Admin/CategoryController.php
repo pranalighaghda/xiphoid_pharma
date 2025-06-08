@@ -5,20 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Banner;
+use App\Models\Category;
 
-class HomepageBannerController extends Controller
+class CategoryController extends Controller
 {
     public function index()
     {
-        $banners = Banner::ordered()->get();
+        $categories = Category::ordered()->get();
 
-        return view('admin.homepage-banners.index', compact('banners'));
+        return view('admin.category.index', compact('categories'));
     }
 
     public function create()
     {
-        return view('admin.homepage-banners.create');
+        return view('admin.category.create');
     }
 
     public function store(Request $request)
@@ -26,89 +26,91 @@ class HomepageBannerController extends Controller
         $validated = $request->validate([
             'title'          => 'required|string|max:255',
             'small_desc'     => 'nullable|string',
+            'content'        => 'nullable|string',
             'media'          => 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048',
             'status'         => 'nullable|in:1,0',
         ]);
 
-        $banner = Banner::create(collect($validated)->except('media')->toArray());
+        $category = Category::create(collect($validated)->except('media')->toArray());
 
         if ($request->hasFile('media')) {
-            MediaHelper::syncMediaToModel($request->file('media'), $banner, 'image');
+            MediaHelper::syncMediaToModel($request->file('media'), $category, 'image');
         }
 
-        return redirect()->route('admin.homepage-banners.index')->with([
-            'message' => 'Banner created successfully!',
+        return redirect()->route('admin.categories.index')->with([
+            'message' => 'Category created successfully!',
             'alert-type' => 'success'
         ]);
     }
 
     public function edit($id)
     {
-        $banner = Banner::findOrFail($id);
+        $category = Category::findOrFail($id);
 
-        return view('admin.homepage-banners.edit', compact('banner'));
+        return view('admin.category.edit', compact('category'));
     }
 
     public function update(Request $request, $id)
     {
-        $banner = Banner::findOrFail($id);
+        $category = Category::findOrFail($id);
 
         $validated = $request->validate([
             'title'          => 'sometimes|string|max:255',
             'small_desc'     => 'nullable|string',
+            'content'        => 'nullable|string',
             'media'          => 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048',
             'status'         => 'nullable|in:1,0',
         ]);
 
         if ($request->hasFile('media')) {
-            MediaHelper::syncMediaToModel($request->file('media'), $banner, 'image');
+            MediaHelper::syncMediaToModel($request->file('media'), $category, 'image');
         }
 
-        $banner->update(collect($validated)->except('media')->toArray());
+        $category->update(collect($validated)->except('media')->toArray());
 
-        return redirect()->route('admin.homepage-banners.index')->with([
-            'message' => 'Banner updated successfully!',
+        return redirect()->route('admin.categories.index')->with([
+            'message' => 'Category updated successfully!',
             'alert-type' => 'success'
         ]);
     }
 
     public function destroy($id)
     {
-        $banner = Banner::findOrFail($id);
+        $category = Category::findOrFail($id);
 
-        if ($banner->media) {
-            MediaHelper::deleteMediaFromModel($banner);
+        if ($category->media) {
+            MediaHelper::deleteMediaFromModel($category);
         }
 
-        $banner->delete();
+        $category->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Banner deleted successfully.'
+            'message' => 'Category deleted successfully.'
         ], 200);
     }
 
     public function reorder()
     {
-        $banners = Banner::ordered()->get();
+        $categories = Category::ordered()->get();
 
-        return view('admin.homepage-banners.reorder', compact('banners'));
+        return view('admin.category.reorder', compact('categories'));
     }
 
     public function updateOrder(Request $request)
     {
         $validated = $request->validate([
             'ids' => 'required|array',
-            'ids.*' => 'required|exists:banners,id',
+            'ids.*' => 'required|exists:categories,id',
         ]);
 
         foreach ($validated['ids'] as $index => $id) {
-            Banner::where('id', $id)->update(['sort_order' => $index + 1]);
+            Category::where('id', $id)->update(['sort_order' => $index + 1]);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Banners reordered successfully.'
+            'message' => 'Categories reordered successfully.'
         ], 200);
     }
 }

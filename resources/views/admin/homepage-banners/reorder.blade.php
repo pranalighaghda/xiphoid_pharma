@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
     @include('layouts.top-header', [
-        'title' => 'Reorder Homepage Banner',
+        'title' => 'Reorder Homepage Banners',
         'breadcrumbs' => [
             [
-                'label' => 'Homepage Banner',
-                'route' => 'admin.homepage-banner.index',
+                'label' => 'Homepage Banners',
+                'route' => 'admin.homepage-banners.index',
             ],
         ],
     ])
@@ -16,12 +16,12 @@
                 <div class="card shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <h3 class="ml-3">Reorder Homepage Banner</h3>
+                            <h3 class="ml-3">Reorder Homepage Banners</h3>
                         </div>
                     </div>
                     <div class="card-body">
                         <ul class="sortable-list list-group"
-                            data-href="{{ route('admin.homepage-banner.update-order') }}">
+                            data-href="{{ route('admin.homepage-banners.update-order') }}">
                             @foreach ($banners as $banner)
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
                                     data-id="{{ $banner->id }}">
@@ -40,7 +40,7 @@
                         </ul>
                         <div class="d-flex justify-content-between align-items-center mt-4">
                             <div>
-                                <a href="{{ route('admin.homepage-banner.index') }}"
+                                <a href="{{ route('admin.homepage-banners.index') }}"
                                     class="btn btn-success">
                                     <i class="ni ni-bold-left"></i> Go Back
                                 </a>

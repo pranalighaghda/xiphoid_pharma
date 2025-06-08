@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
     @include('layouts.top-header', [
-        'title' => 'Edit Homepage Banner',
+        'title' => 'Create Category',
         'breadcrumbs' => [
             [
-                'label' => 'Homepage Banner',
-                'route' => 'admin.homepage-banner.index',
+                'label' => 'Categories',
+                'route' => 'admin.categories.index',
             ],
         ],
     ])
@@ -16,11 +16,11 @@
                 <div class="card shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <h3 class="ml-3">Edit Homepage Banner</h3>
+                            <h3 class="ml-3">Create Category</h3>
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('admin.homepage-banner._form')
+                        @include('admin.category._form')
                     </div>
                 </div>
             </div>

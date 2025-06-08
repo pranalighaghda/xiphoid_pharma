@@ -28,6 +28,11 @@ class Product extends Model
         return $this->morphMany(Media::class, 'mediable');
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     // Accessor
     public function getMediaUrlAttribute(): ?string
     {

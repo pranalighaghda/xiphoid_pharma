@@ -72,10 +72,31 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('admin/homepage-banner*') ? 'active' : '' }}"
-                        href="{{ route('admin.homepage-banner.index') }}">
+                    <a class="nav-link {{ request()->is('admin/homepage-banners*') ? 'active' : '' }}"
+                        href="{{ route('admin.homepage-banners.index') }}">
                         <i class="ni ni-image text-green"></i>
-                        <span class="nav-link-text">Homepage Banner</span>
+                        <span class="nav-link-text">Homepage Banners</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('admin/categories*') ? 'active' : '' }}"
+                        href="{{ route('admin.categories.index') }}">
+                        <i class="ni ni-tag text-red"></i>
+                        <span class="nav-link-text">Categories</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('admin/products*') ? 'active' : '' }}"
+                        href="{{ route('admin.products.index') }}">
+                        <i class="ni ni-bag-17 text-orange"></i>
+                        <span class="nav-link-text">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('admin/enquiries*') ? 'active' : '' }}"
+                        href="{{ route('admin.enquiries.index') }}">
+                        <i class="ni ni-email-83 text-yellow"></i>
+                        <span class="nav-link-text">Enquiries</span>
                     </a>
                 </li>
             </ul>

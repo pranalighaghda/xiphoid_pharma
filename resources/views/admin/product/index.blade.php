@@ -1,18 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('layouts.top-header', [
-        'title' => 'Entries',
-        'breadcrumbs' => [
-            [
-                'label' => 'Pages',
-                'route' => 'admin.pages.index',
-            ],
-            [
-                'label' => 'Sections',
-                'route' => 'admin.pages.sections.index',
-                'params' => ['page_id' => $page->id],
-            ],
-        ],
+        'title' => 'Products',
     ])
 
     <div class="container-fluid mt--6 mb-5">
@@ -21,14 +10,14 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        <span class="h3"> {{ $section->title }} -> Entries</span>
+                        <span class="h3"> Products</span>
 
                         <a class="btn btn-primary float-right p-2 text-white"
-                            href="{{ route('admin.pages.sections.entries.reorder', ['page_id' => $page->id, 'section_id' => $section->id]) }}"><i
+                            href="{{ route('admin.products.reorder') }}"><i
                                 class="fas fa-sort mr-1"></i> Reorder
                         </a>
                         <a class="btn btn-primary float-right p-2 mr-2 text-white"
-                            href="{{ route('admin.pages.sections.entries.create', ['page_id' => $page->id, 'section_id' => $section->id]) }}"><i
+                            href="{{ route('admin.products.create') }}"><i
                                 class="fas fa-plus mr-1"></i>Add
                             New</a>
                     </div>
@@ -38,18 +27,20 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="sort">#</th>
-                                    <th scope="col" class="sort">Title</th>
+                                    <th scope="col" class="sort">Category</th>
+                                    <th scope="col" class="sort">Name</th>
                                     <th scope="col" class="sort">Status</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody class="list">
-                                @forelse ($entries as $key => $entry)
+                                @forelse ($products as $key => $product)
                                     <tr>
                                         <th>{{ $loop->iteration }}</th>
-                                        <td>{{ $entry->title }}</td>
+                                        <td>{{ $product->category->title }}</td>
+                                        <td>{{ $product->name }}</td>
                                         <td>
-                                            @if ($entry->status)
+                                            @if ($product->status)
                                                 <span class="badge badge-pill badge-success">Active</span>
                                             @else
                                                 <span class="badge badge-pill badge-warning">Inactive</span>
@@ -57,13 +48,13 @@
                                         </td>
                                         <td class="table-actions">
                                             <a class="btn btn-info"
-                                                href="{{ route('admin.pages.sections.entries.edit', ['page_id' => $page->id, 'section_id' => $section->id, 'entry_id' => $entry->id]) }}"
-                                                data-toggle="tooltip" title="Edit Entry">
+                                                href="{{ route('admin.products.edit', ['product_id' => $product->id]) }}"
+                                                data-toggle="tooltip" title="Edit Product">
                                                 <i class="fas fa-user-edit"></i>
                                             </a>
                                             <a class="btn btn-danger text-white delete-button"
-                                                data-href="{{ route('admin.pages.sections.entries.delete', ['page_id' => $page->id, 'section_id' => $section->id, 'entry_id' => $entry->id]) }}"
-                                                data-toggle="tooltip" title="Delete Entry">
+                                                data-href="{{ route('admin.products.delete', ['product_id' => $product->id]) }}"
+                                                data-toggle="tooltip" title="Delete Product">
                                                 <i class="fas fa-trash"></i>
                                             </a>
 
@@ -71,7 +62,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center">No Entries</td>
+                                        <td colspan="5" class="text-center">No Products</td>
                                     </tr>
                                 @endforelse
                             </tbody>

@@ -14,7 +14,6 @@ class Enquiry extends Model
         'email',
         'subject',
         'content',
-        'phone_no',
-        'reply_note',
+        'phone_no'
     ];
 }

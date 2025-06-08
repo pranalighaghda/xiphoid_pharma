@@ -90,30 +90,22 @@ $(document).ready(function () {
     // Datatable
     $('#dataTable').DataTable({
         dom: 'Bfrtip',
+        destroy: true,
+        deferRender: true,
         language: {
             paginate: {
                 previous: "<i class='fas fa-angle-left'>",
                 next: "<i class='fas fa-angle-right'>"
             }
         },
-        buttons: [{
-            extend: 'copyHtml5',
-            title: new Date().toISOString()
-        },
-        {
-            extend: 'excelHtml5',
-            title: new Date().toISOString()
-        },
-        {
-            extend: 'csvHtml5',
-            title: new Date().toISOString()
-        },
-        {
-            extend: 'pdfHtml5',
-            title: new Date().toISOString()
-        },
+        buttons: [
+            { extend: 'copyHtml5', title: new Date().toISOString() },
+            { extend: 'excelHtml5', title: new Date().toISOString() },
+            { extend: 'csvHtml5', title: new Date().toISOString() },
+            { extend: 'pdfHtml5', title: new Date().toISOString() }
         ]
     });
+
 
     if (document.querySelector('.ck_editor')) {
         document.querySelectorAll('.ck_editor').forEach(editorEl => {
@@ -164,6 +156,23 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(document).on('click', '.btn-view', function () {
+        let url = $(this).data('href');
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (response) {
+                $('#enquirySubjectValue').text(response.data.subject || 'N/A');
+                $('#enquiryContentValue').text(response.data.content || 'N/A');
+                $('#enquiryModal').modal('show');
+            },
+            error: function () {
+                alert('Failed to fetch enquiry data.');
+            }
+        });
+    });
+
 
 });
 

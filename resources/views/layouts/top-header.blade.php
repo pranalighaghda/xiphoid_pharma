@@ -26,7 +26,7 @@
                                 @endforeach
                             @endif
 
-                            <li class="breadcrumb-item active text-white" aria-current="page">{{ $title }}</li>
+                            <li class="breadcrumb-item active text-gray" aria-current="page">{{ $title }}</li>
                         </ol>
                     </nav>
                 </div>

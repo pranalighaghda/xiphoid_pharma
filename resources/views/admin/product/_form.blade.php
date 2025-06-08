@@ -14,10 +14,11 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="form-control-label" for="category_id">Category</label>
-                    <select class="form-control" name="category_id" id="category_id">
+                    <select class="form-control select2" name="category_id" id="category_id">
                         <option value="">Select Category</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id', $product->category_id ?? '') == $category->id ? 'selected' : '' }}>
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id', $product->category_id ?? '') == $category->id ? 'selected' : '' }}>
                                 {{ $category->title }}
                             </option>
                         @endforeach
@@ -40,8 +41,9 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="form-control-label" for="composition">Composition</label>
-                    <input type="text" name="composition" value="{{ old('composition', $product->composition ?? '') }}"
-                        class="form-control" id="composition" placeholder="Composition">
+                    <input type="text" name="composition"
+                        value="{{ old('composition', $product->composition ?? '') }}" class="form-control"
+                        id="composition" placeholder="Composition">
                     @error('composition')
                         <div class="invalid-div">{{ $message }}</div>
                     @enderror
@@ -50,8 +52,9 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="form-control-label" for="dosage_form">Dosage Form</label>
-                    <input type="text" name="dosage_form" value="{{ old('dosage_form', $product->dosage_form ?? '') }}"
-                        class="form-control" id="dosage_form" placeholder="Dosage Form">
+                    <input type="text" name="dosage_form"
+                        value="{{ old('dosage_form', $product->dosage_form ?? '') }}" class="form-control"
+                        id="dosage_form" placeholder="Dosage Form">
                     @error('dosage_form')
                         <div class="invalid-div">{{ $message }}</div>
                     @enderror
@@ -118,17 +121,17 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="form-control-label" for="status">Status</label>
-                    <select class="form-control" name="status" id="status">
-                        <option value="1" {{ old('status', $product->status ?? 0) == 1 ? 'selected' : '' }}>Active
-                        </option>
-                        <option value="0" {{ old('status', $product->status ?? 0) == 0 ? 'selected' : '' }}>Inactive
-                        </option>
+                    <select class="form-control select2" name="status" id="status">
+                        <option value="1" {{ old('status', $product->status ?? 1) == 1 ? 'selected' : '' }}>
+                            Active</option>
+                        <option value="0" {{ old('status', $product->status ?? 1) == 0 ? 'selected' : '' }}>
+                            Inactive</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <div class="text-center">
+        <div class="text-right">
             <button type="submit" class="btn btn-primary mt-4">Save</button>
         </div>
     </div>

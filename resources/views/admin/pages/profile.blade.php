@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="name">Name</label>
                                 <input type="text"  value="{{old('name', auth()->user()->name)}}" class="form-control" name="name" id="name" placeholder="Name">
-                                @error('name')                                    
+                                @error('name')
                                     <div class="invalid-div">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -38,12 +38,12 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="email">Email</label>
                                 <input type="text"  value="{{old('email', auth()->user()->email)}}" class="form-control" name="email" id="email" placeholder="Email">
-                                @error('email')                                    
+                                @error('email')
                                     <div class="invalid-div">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="text-center">
+                            <div class="text-right">
                                 <button type="submit" class="btn btn-primary mt-4">Save</button>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="current_password">Current Password</label>
                                 <input type="password" class="form-control" name="current_password" id="current_password" placeholder="Current Password" autocomplete="current-password">
-                                @error('current_password')                                    
+                                @error('current_password')
                                     <div class="invalid-div">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="new_password">New Password</label>
                                 <input type="password" class="form-control" name="new_password" id="new_password" placeholder="New Password" autocomplete="new-password">
-                                @error('new_password')                                    
+                                @error('new_password')
                                     <div class="invalid-div">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -72,12 +72,12 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="new_password_confirmation">Confirm New Password</label>
                                 <input type="password" class="form-control" name="new_password_confirmation" id="new_password_confirmation" placeholder="Confirm New Password" autocomplete="new_password_confirmation">
-                                @error('new_password_confirmation')                                    
+                                @error('new_password_confirmation')
                                     <div class="invalid-div">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="text-center">
+                            <div class="text-right">
                                 <button type="submit" class="btn btn-primary mt-4">Change password</button>
                             </div>
                         </div>
@@ -86,6 +86,6 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 @endsection

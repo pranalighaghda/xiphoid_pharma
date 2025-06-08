@@ -83,7 +83,7 @@
 
                                 @include('admin.includes.meta_info')
 
-                                <div class="text-center">
+                                <div class="text-right">
                                     <button type="submit" class="btn btn-primary mt-4">Save</button>
                                 </div>
                             </div>

@@ -95,7 +95,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="btn_is_new_tab">Open in new tab?</label>
-                                            <select class="form-control" id="btn_is_new_tab" name="btn_is_new_tab">
+                                            <select class="form-control select2" id="btn_is_new_tab" name="btn_is_new_tab">
                                                 <option value="1"
                                                     {{ old('btn_is_new_tab', $item->btn_is_new_tab) == 1 ? 'selected' : '' }}>
                                                     Yes</option>
@@ -109,15 +109,10 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="status">Status</label>
-                                            <select class="form-control" id="status" name="status">
-                                                <option value="1"
-                                                    {{ old('status', $item->status) == 1 ? 'selected' : '' }}>Active
-                                                </option>
-                                                <option value="0"
-                                                    {{ old('status', $item->status) == 0 ? 'selected' : '' }}>Inactive
-                                                </option>
+                                            <select class="form-control select2" name="status" id="status">
+                                                <option value="1" {{ old('status', $item->status ?? 1) == 1 ? 'selected' : '' }}>Active</option>
+                                                <option value="0" {{ old('status', $item->status ?? 1) == 0 ? 'selected' : '' }}>Inactive</option>
                                             </select>
-
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +148,7 @@
                                     </div>
                                 </div>
 
-                                <div class="text-center">
+                                <div class="text-right">
                                     <button type="submit" class="btn btn-primary mt-4">Save</button>
                                 </div>
                             </div>

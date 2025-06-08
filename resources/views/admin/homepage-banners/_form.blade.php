@@ -62,17 +62,15 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="form-control-label" for="status">Status</label>
-                    <select class="form-control" name="status" id="status">
-                        <option value="1" {{ old('status', $banner->status ?? 0) == 1 ? 'selected' : '' }}>Active
-                        </option>
-                        <option value="0" {{ old('status', $banner->status ?? 0) == 0 ? 'selected' : '' }}>Inactive
-                        </option>
+                    <select class="form-control select2" name="status" id="status">
+                        <option value="1" {{ old('status', $banner->status ?? 1) == 1 ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ old('status', $banner->status ?? 1) == 0 ? 'selected' : '' }}>Inactive</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <div class="text-center">
+        <div class="text-right">
             <button type="submit" class="btn btn-primary mt-4">Save</button>
         </div>
     </div>

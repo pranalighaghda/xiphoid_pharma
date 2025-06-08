@@ -5596,6 +5596,7 @@ input[type='button'].btn-block {
     list-style: none;
     border-radius: .375rem;
     /* background-color: ; */
+    background-color: #e9ecef;
     flex-wrap: wrap;
 }
 

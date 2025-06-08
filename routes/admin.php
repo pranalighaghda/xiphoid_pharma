@@ -45,6 +45,13 @@ Route::middleware(['web', 'auth'])
 
                 Route::prefix('{section_id}/entries')->name('entries.')->controller(EntryController::class)->group(function () {
                     Route::get('/', 'index')->name('index');
+                    Route::get('/create', 'create')->name('create');
+                    Route::post('/store', 'store')->name('store');
+                    Route::get('/edit/{entry_id}', 'edit')->name('edit');
+                    Route::post('/update/{entry_id}', 'update')->name('update');
+                    Route::delete('/delete/{entry_id}', 'destroy')->name('delete');
+                    Route::get('/reorder', 'reorder')->name('reorder');
+                    Route::post('/update-order', 'updateOrder')->name('update-order');
                 });
             });
         });

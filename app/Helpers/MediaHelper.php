@@ -23,7 +23,9 @@ class MediaHelper
     public static function deleteMediaFromModel($model): void
     {
         $existingMedia = $model->media()->first();
-        (new self)->deleteMedia($existingMedia);
+        if ($existingMedia) {
+            (new self)->deleteMedia($existingMedia);
+        }
     }
 
     public static function syncMediaToModel(UploadedFile $file, $model, string $fileType = 'file'): Media

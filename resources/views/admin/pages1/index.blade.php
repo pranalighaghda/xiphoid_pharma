@@ -1,7 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
-
     @include('layouts.top-header', [
         'title' => __('Pages'),
         'class' => 'col-lg-7',
@@ -17,7 +15,7 @@
                     </div>
                     <!-- table -->
                     <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
+                        <table class="table align-items-center table-flush table-hover" id="dataTable">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="sort">#</th>
@@ -26,37 +24,33 @@
                                 </tr>
                             </thead>
                             <tbody class="list">
-                                @if (count($pages) != 0)
-                                    @foreach ($pages as $key => $page)
-                                        <tr>
-                                            <th>{{ $pages->firstItem() + $key }}</th>
-                                            <td>{{ $page->title }}</td>
-                                            <td class="table-actions">
-                                                @if ($page->is_sections)
-                                                    <a class="btn-white btn shadow-none p-0 m-0 table-action text-warning bg-white"
-                                                        href="{{ route('admin.pages.sections.index', ['page_id' => $page->id]) }}"
-                                                        data-toggle="tooltip" data-original-title="View Sections">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                @endif
-                                                <a class="btn-white btn shadow-none p-0 m-0 table-action text-info bg-white"
-                                                        href="{{ route('admin.pages.edit', ['page_id' => $page->id]) }}"
-                                                    data-toggle="tooltip" data-original-title="Edit Page">
-                                                    <i class="fas fa-user-edit"></i>
+                                @forelse ($pages as $key => $page)
+                                    <tr>
+                                        <th>{{ $loop->iteration }}</th>
+                                        <td>{{ $page->title }}</td>
+                                        <td class="table-actions">
+                                            @if ($page->is_sections)
+                                                <a class="btn btn-warning"
+                                                    href="{{ route('admin.pages.sections.index', ['page_id' => $page->id]) }}"
+                                                    data-toggle="tooltip" title="View Sections">
+                                                    <i class="fas fa-eye"></i>
                                                 </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
+                                            @endif
+                                            <a class="btn btn-info"
+                                                href="{{ route('admin.pages.edit', ['page_id' => $page->id]) }}"
+                                                data-toggle="tooltip" title="Edit Page">
+                                                <i class="fas fa-user-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
                                     <tr>
                                         <th colspan="3" class="text-center">No Pages</th>
                                     </tr>
-                                @endif
+                                @endforelse
                             </tbody>
+
                         </table>
-                        <div class="float-right mr-4 mb-1">
-                            {{ $pages->links() }}
-                        </div>
                     </div>
                 </div>
             </div>

@@ -15,27 +15,17 @@ class EntryController extends Controller
     {
         $page = Page::findOrFail($page_id);
         $section = Section::where('page_id', $page_id)->findOrFail($section_id);
-        $entries = Entry::where('section_id', $section_id)->ordered()->paginate(10);
+        $entries = Entry::where('section_id', $section_id)->ordered()->get();
 
-        return view('admin.pages.entry', compact('section', 'page', 'entries'));
+        return view('admin.entry.index', compact('section', 'page', 'entries'));
     }
 
-    public function show($page_id, $section_id, $id)
+    public function create($page_id, $section_id)
     {
-        $entry = Entry::where('section_id', $section_id)->find($id);
+        $page = Page::findOrFail($page_id);
+        $section = Section::where('page_id', $page_id)->findOrFail($section_id);
 
-        if (!$entry) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Entry not found.'
-            ], 404);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Entry fetched successfully.',
-            'data' => $entry
-        ], 200);
+        return view('admin.entry.create', compact('section', 'page'));
     }
 
     public function store(Request $request, $page_id, $section_id)
@@ -58,23 +48,24 @@ class EntryController extends Controller
             MediaHelper::syncMediaToModel($request->file('media'), $entry, 'image');
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Entry created successfully.',
-            'data' => $entry->fresh()
-        ], 200);
+        return redirect()->route('admin.pages.sections.entries.index', ['page_id' => $page_id, 'section_id' => $section_id])->with([
+            'message' => 'Entry created successfully!',
+            'alert-type' => 'success'
+        ]);
+    }
+
+    public function edit($page_id, $section_id, $id)
+    {
+        $page = Page::findOrFail($page_id);
+        $section = Section::where('page_id', $page_id)->findOrFail($section_id);
+        $entry = Entry::where('section_id', $section_id)->findOrFail($id);
+
+        return view('admin.entry.edit', compact('section', 'page', 'entry'));
     }
 
     public function update(Request $request, $page_id, $section_id, $id)
     {
-        $entry = Entry::where('section_id', $section_id)->find($id);
-
-        if (!$entry) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Entry not found.'
-            ], 404);
-        }
+        $entry = Entry::where('section_id', $section_id)->findOrFail($id);
 
         $validated = $request->validate([
             'title'          => 'sometimes|string|max:255',
@@ -92,23 +83,15 @@ class EntryController extends Controller
 
         $entry->update(collect($validated)->except('media')->toArray());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Entry updated successfully.',
-            'data' => $entry->fresh()
-        ], 200);
+        return redirect()->route('admin.pages.sections.entries.index', ['page_id' => $page_id, 'section_id' => $section_id])->with([
+            'message' => 'Entry updated successfully!',
+            'alert-type' => 'success'
+        ]);
     }
 
     public function destroy($page_id, $section_id, $id)
     {
-        $entry = Entry::where('section_id', $section_id)->find($id);
-
-        if (!$entry) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Entry not found.'
-            ], 404);
-        }
+        $entry = Entry::where('section_id', $section_id)->findOrFail($id);
 
         if ($entry->media) {
             MediaHelper::deleteMediaFromModel($entry);
@@ -122,7 +105,16 @@ class EntryController extends Controller
         ], 200);
     }
 
-    public function reorder(Request $request)
+    public function reorder($page_id, $section_id)
+    {
+        $page = Page::findOrFail($page_id);
+        $section = Section::where('page_id', $page_id)->findOrFail($section_id);
+        $entries = Entry::where('section_id', $section_id)->ordered()->get();
+
+        return view('admin.entry.reorder', compact('entries', 'page', 'section'));
+    }
+
+    public function updateOrder(Request $request, $page_id, $section_id)
     {
         $validated = $request->validate([
             'ids' => 'required|array',
@@ -135,7 +127,7 @@ class EntryController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Entries reordered successfully.',
+            'message' => 'Entries reordered successfully.'
         ], 200);
     }
 }

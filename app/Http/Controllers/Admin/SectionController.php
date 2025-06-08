@@ -13,7 +13,7 @@ class SectionController extends Controller
     public function index($page_id)
     {
         $page = Page::findOrFail($page_id);
-        $sections = Section::where('page_id', $page_id)->paginate(10);
+        $sections = Section::where('page_id', $page_id)->get();
 
         return view('admin.section.index', compact('sections', 'page'));
     }

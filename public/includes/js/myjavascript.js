@@ -124,4 +124,83 @@ $(document).ready(function () {
                 });
         });
     }
+
+    $('.delete-button').click(function () {
+        const href = $(this).data('href');
+        Swal.fire({
+            title: 'Are you sure to delete?',
+            text: "This will permanently delete the record.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(href, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrf,
+                        'Accept': 'application/json',
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Show toastr success message (sent from server in session)
+                            toastr.success(data.message);
+
+                            // Reload after short delay to let toastr show briefly
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1500);
+                        } else {
+                            Swal.fire('Error!', data.message, 'error');
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire('Error!', 'Something went wrong.', 'error');
+                    });
+            }
+        });
+    });
+
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.sortable-list').forEach(function (list) {
+        new Sortable(list, {
+            animation: 150,
+            handle: '.handle',
+        });
+    });
+
+    document.querySelectorAll('.save-order-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const list = document.querySelector('.sortable-list'); // safer than previousElementSibling
+            if (!list) return;
+
+            const url = list.dataset.href;
+            const order = Array.from(list.querySelectorAll('li')).map(item => item.dataset.id);
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ids: order })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success || data.message) {
+                        toastr.success(data.message || 'Order saved');
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        toastr.error('Order update failed');
+                    }
+                });
+        });
+    });
+
 });

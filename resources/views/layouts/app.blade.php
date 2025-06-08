@@ -79,7 +79,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 
     <script src="{{ asset('includes/js/myjavascript.js') }}"></script>
@@ -91,38 +92,29 @@
 
                     toastr.options.timeOut = 10000;
                     toastr.info("{{ Session::get('message') }}");
-                    var audio = new Audio('audio.mp3');
-                    audio.play();
                     break;
                 case 'success':
 
                     toastr.options.timeOut = 10000;
                     toastr.success("{{ Session::get('message') }}");
-                    var audio = new Audio('audio.mp3');
-                    audio.play();
-
                     break;
                 case 'warning':
 
                     toastr.options.timeOut = 10000;
                     toastr.warning("{{ Session::get('message') }}");
-                    var audio = new Audio('audio.mp3');
-                    audio.play();
+
 
                     break;
                 case 'error':
 
                     toastr.options.timeOut = 10000;
                     toastr.error("{{ Session::get('message') }}");
-                    var audio = new Audio('audio.mp3');
-                    audio.play();
 
                     break;
             }
         @endif
     </script>
     @stack('js')
-
 
 </body>
 

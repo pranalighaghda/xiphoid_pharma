@@ -1,12 +1,16 @@
 @extends('layouts.app')
-
 @section('content')
     @include('layouts.top-header', [
-        'title' => 'Sections',
+        'title' => 'Entries',
         'breadcrumbs' => [
             [
                 'label' => 'Pages',
                 'route' => 'admin.pages.index',
+            ],
+            [
+                'label' => 'Sections',
+                'route' => 'admin.pages.sections.index',
+                'params' => ['page_id' => $page->id],
             ],
         ],
     ])
@@ -17,10 +21,18 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header border-0">
-                        <span class="h3">{{ $page->title }} Sections</span>
-                    </div>
+                        <span class="h3"> {{ $section->title }} -> Entries</span>
 
-                    <!-- Table -->
+                        <a class="btn btn-primary float-right p-2 text-white"
+                            href="{{ route('admin.pages.sections.entries.reorder', ['page_id' => $page->id, 'section_id' => $section->id]) }}"><i
+                                class="fas fa-sort mr-1"></i> Reorder
+                        </a>
+                        <a class="btn btn-primary float-right p-2 mr-2 text-white"
+                            href="{{ route('admin.pages.sections.entries.create', ['page_id' => $page->id, 'section_id' => $section->id]) }}"><i
+                                class="fas fa-plus mr-1"></i>Add
+                            New</a>
+                    </div>
+                    <!-- table -->
                     <div class="table-responsive">
                         <table class="table align-items-center table-flush table-hover" id="dataTable">
                             <thead class="thead-light">
@@ -32,36 +44,34 @@
                                 </tr>
                             </thead>
                             <tbody class="list">
-                                @forelse ($sections as $section)
+                                @forelse ($entries as $key => $entry)
                                     <tr>
                                         <th>{{ $loop->iteration }}</th>
-                                        <td>{{ $section->title }}</td>
+                                        <td>{{ $entry->title }}</td>
                                         <td>
-                                            @if ($section->status)
+                                            @if ($entry->status)
                                                 <span class="badge badge-pill badge-success">Active</span>
                                             @else
                                                 <span class="badge badge-pill badge-warning">Inactive</span>
                                             @endif
                                         </td>
                                         <td class="table-actions">
-                                            @if ($section->is_entries)
-                                                <a class="btn btn-warning"
-                                                    href="{{ route('admin.pages.sections.entries.index', ['page_id' => $page->id, 'section_id' => $section->id]) }}"
-                                                    data-toggle="tooltip" title="View Entries">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
-
                                             <a class="btn btn-info"
-                                                href="{{ route('admin.pages.sections.edit', ['page_id' => $page->id, 'section_id' => $section->id]) }}"
-                                                data-toggle="tooltip" title="Edit Section">
+                                                href="{{ route('admin.pages.sections.entries.edit', ['page_id' => $page->id, 'section_id' => $section->id, 'entry_id' => $entry->id]) }}"
+                                                data-toggle="tooltip" title="Edit Entry">
                                                 <i class="fas fa-user-edit"></i>
                                             </a>
+                                            <a class="btn btn-danger text-white delete-button"
+                                                data-href="{{ route('admin.pages.sections.entries.delete', ['page_id' => $page->id, 'section_id' => $section->id, 'entry_id' => $entry->id]) }}"
+                                                data-toggle="tooltip" title="Delete Entry">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center">No Sections</td>
+                                        <th colspan="4" class="text-center">No Entries</th>
                                     </tr>
                                 @endforelse
                             </tbody>

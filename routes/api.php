@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Front\PageController as FrontPageController;
 use App\Http\Controllers\Api\Front\CategoryController as FrontCategoryController;
 use App\Http\Controllers\Api\Front\ProductController as FrontProductController;
 use App\Http\Controllers\Api\Front\EnquiryController as FrontEnquiryController;
+use App\Http\Controllers\Api\Front\SettingsController as FrontSettingsController;
 
 Route::post('admin/login', [AuthController::class, 'login']);
 
@@ -91,3 +92,4 @@ Route::get('/page/{name}', [FrontPageController::class, 'page']);
 Route::get('/categories', [FrontCategoryController::class, 'categories']);
 Route::get('/products/{category_id?}', [FrontProductController::class, 'products']);
 Route::post('/enquiry', [FrontEnquiryController::class, 'enquiry']);
+Route::get('/settings', [FrontSettingsController::class, 'settings']);

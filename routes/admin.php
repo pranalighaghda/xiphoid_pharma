@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\EntryController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\HomepageBannerController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SettingsController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
@@ -36,8 +37,13 @@ Route::middleware(['web', 'auth'])
 
         Route::delete('media/{id}', [MediaController::class, 'destroy']);
 
+    Route::prefix('settings')->name('settings.')->controller(SettingsController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/update', 'update')->name('update');
+    });
 
-        Route::prefix('pages')->name('pages.')->controller(PageController::class)->group(function () {
+
+    Route::prefix('pages')->name('pages.')->controller(PageController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/edit/{page_id}', 'edit')->name('edit');
             Route::post('/update/{page_id}', 'update')->name('update');

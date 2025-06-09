@@ -99,6 +99,13 @@
                         <span class="nav-link-text">Enquiries</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('admin/settings') ? 'active' : '' }}"
+                        href="{{ route('admin.settings.index') }}">
+                        <i class="ni ni-settings text-purple"></i>
+                        <span class="nav-link-text">Settings</span>
+                    </a>
+                </li>
             </ul>
 
         </div>

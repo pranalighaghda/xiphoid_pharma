@@ -16,6 +16,8 @@ class SectionSeeder extends Seeder
         $homePage = Page::where('name', 'home')->first();
         $aboutUsPage = Page::where('name', 'about_us')->first();
         $qualityPage = Page::where('name', 'quality')->first();
+        $privacyPolicyPage = Page::where('name', 'privacy_policy')->first();
+        $termsAndConditionsPage = Page::where('name', 'terms_and_conditions')->first();
 
         $sections = [
             // Home page sections
@@ -68,6 +70,20 @@ class SectionSeeder extends Seeder
                 'name' => 'quality_page',
                 'title' => 'Committed to Quality, Driven by Innovation',
                 'page_id' => $qualityPage->id,
+            ],
+
+            // Privacy Policy page sections
+            [
+                'name' => 'privacy_policy',
+                'title' => 'Privacy Policy',
+                'page_id' => $privacyPolicyPage->id,
+            ],
+
+            // Terms and Conditions page sections
+            [
+                'name' => 'terms_and_conditions',
+                'title' => 'Terms and Conditions',
+                'page_id' => $termsAndConditionsPage->id,
             ],
         ];
 

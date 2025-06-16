@@ -39,10 +39,12 @@ class PageSeeder extends Seeder
             [
                 'name' => 'privacy_policy',
                 'title' => 'Privacy Policy',
+                'is_sections' => 1,
             ],
             [
                 'name' => 'terms_and_conditions',
                 'title' => 'Terms and Conditions',
+                'is_sections' => 1,
             ],
 
         ];

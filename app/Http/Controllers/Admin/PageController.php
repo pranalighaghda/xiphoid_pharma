@@ -30,6 +30,7 @@ class PageController extends Controller
         $validated = $request->validate([
             'title'         => 'required|string|max:255',
             'small_desc'    => 'nullable|string',
+            'status'         => 'nullable|in:1,0',
             'media'         => 'nullable|file|mimes:jpeg,png,jpg,webp|max:2048',
             'meta_title'    => 'nullable|string|max:255',
             'meta_content'  => 'nullable|string',

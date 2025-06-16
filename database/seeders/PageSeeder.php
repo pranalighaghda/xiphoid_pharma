@@ -36,6 +36,15 @@ class PageSeeder extends Seeder
                 'name' => 'products',
                 'title' => 'Our Products',
             ],
+            [
+                'name' => 'privacy_policy',
+                'title' => 'Privacy Policy',
+            ],
+            [
+                'name' => 'terms_and_conditions',
+                'title' => 'Terms and Conditions',
+            ],
+
         ];
 
         $seederNames = collect($pages)->pluck('name')->toArray();

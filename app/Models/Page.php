@@ -17,6 +17,7 @@ class Page extends Model
         'meta_content',
         'meta_keyword',
         'is_sections',
+        'status'
     ];
 
     protected $appends = ['media_url', 'media_id'];

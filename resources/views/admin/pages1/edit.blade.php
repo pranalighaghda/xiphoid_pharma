@@ -78,7 +78,15 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="status">Status</label>
+                                            <select class="form-control select2" name="status" id="status">
+                                                <option value="1" {{ old('status', $item->status ?? 1) == 1 ? 'selected' : '' }}>Active</option>
+                                                <option value="0" {{ old('status', $item->status ?? 1) == 0 ? 'selected' : '' }}>Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 @include('admin.includes.meta_info')

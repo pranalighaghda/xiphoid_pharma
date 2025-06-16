@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('meta_content')->nullable();
             $table->string('meta_keyword')->nullable();
             $table->boolean('is_sections')->default(0);
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
